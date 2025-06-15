@@ -1,8 +1,11 @@
 from sqlite3 import *
 from tkinter import *
+# from tkinter import ScrolledText
+import tkinter as tk
 from tkinter import ttk
 from PIL import Image,ImageTk
 from datetime import *
+from tkinter.scrolledtext import ScrolledText
 
 #Db and table created.
 #used function just to check db and table exists
@@ -24,6 +27,19 @@ def set_up():
           con.close
 set_up()
  
+#take value  in scrolltext when enter is pressed
+def display_values():
+    qty = qty_entry.get()
+    table = table_no_cb.get()
+    serve = server_no_cb.get()
+    platform = platform_cb.get()
+    item = item_cb.get()
+    
+    scrollbox.insert(tk.END, f"Table No: {table}, Server: {serve}\n")
+    scrollbox.insert(tk.END, f"Item: {item}, Qty: {qty}\n")
+    scrollbox.insert(tk.END, f"Platform: {platform}\n\n")
+
+
 """inseted value in menu table.
 Uncomment when new item to be added in Menu table"""
 
@@ -82,6 +98,7 @@ image_label.pack(pady=10)
 
 #Font's
 f=("Cambria",16)
+f1=("Cambria",24)
 
 dt=datetime.now()
 d=(dt.strftime("%x"))
@@ -96,7 +113,7 @@ time_label.place(x=850,y=80)
 #Combobox List
 table_no=[1,2,3,4,5,6,7,8,9,10]
 server_no=[1000,2000,3000,4000]
-platform=["Dine-in","Take away","Swiggy","Zomato","Other"]
+
 
 #ComboBox Place
 table_no_cb=ttk.Combobox(root,values=table_no,font=f)
@@ -107,7 +124,7 @@ server_no_cb=ttk.Combobox(root,values=server_no,font=f)
 server_no_cb.set("Select Server No.")
 server_no_cb.place(x=400,y=300)
 
-platform_cb=ttk.Combobox(root,values=platform,font=f)
+platform_cb=ttk.Combobox(root,values=["Dine-in","Take away","Swiggy","Zomato","Other"],font=f)
 platform_cb.set("Select Option")
 platform_cb.place(x=400,y=400)
 
@@ -127,5 +144,21 @@ platform_label.place(x=400,y=350)
 
 item_label=Label(root,text="Item",font=f,bg="#F8D395",fg="#1F2916")
 item_label.place(x=100,y=350)
+
+# Label and Entry
+qty_label=Label(root,text="Quantity",font=f,bg="#F8D395",fg="#1F2916")
+qty_label.place(x=100,y=450)
+
+qty_entry=Entry(root,font=f)
+qty_entry.place(x=100,y=500)
+
+#Button
+enter_button=Button(root,text="Enter",font=f1,command=display_values).place(x=450,y=500)
+print_button=Button(root,text="     Print     ",font=f1).place(x=100,y=580)
+
+# #Scroll & Text
+scrollbox = ScrolledText(root, width=29, height=30)
+scrollbox.place(x=700,y=270)
+
 
 root.mainloop()
